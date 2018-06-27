@@ -48,10 +48,10 @@ struct stShareStack_t
 
 struct stCoRoutine_t
 {
-	stCoRoutineEnv_t *env;
-	pfn_co_routine_t pfn;
-	void *arg;
-	coctx_t ctx;
+	stCoRoutineEnv_t *env; // 同个线程中所有协程共享的信息，包括了当前运行协程，上次切换的协程，嵌套调用的协程栈和一个epoll的封装栈等
+	pfn_co_routine_t pfn;  // 实际执行的函数
+	void *arg;  // 函数参数
+	coctx_t ctx; // 协程切换时保存CPU的上下文信息，包括rsp rip rbp等寄存器信息
 
 	char cStart;
 	char cEnd;
@@ -59,10 +59,10 @@ struct stCoRoutine_t
 	char cEnableSysHook;
 	char cIsShareStack;
 
-	void *pvEnv;
+	void *pvEnv; // 保存程序系统环境变量
 
 	//char sRunStack[ 1024 * 128 ];
-	stStackMem_t* stack_mem;
+	stStackMem_t* stack_mem; //协议运行时的栈内存
 
 
 	//save satck buffer while confilct on same stack_buffer;
